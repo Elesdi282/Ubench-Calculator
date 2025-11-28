@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UBENCH Work Calculator</title>
+
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: url('https://www.ubench.com/auth/resources/afkpa/login/ubench/img/bg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .calculator-box {
+        background: rgba(255, 255, 255, 0.92);
+        padding: 40px 35px;
+        border-radius: 12px;
+        width: 380px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+        text-align: center;
+    }
+
+    .calculator-box img {
+        max-height: 70px;
+        margin-bottom: 25px;
+    }
+
+    .calculator-box label {
+        display: block;
+        text-align: left;
+        margin-top: 15px;
+        font-weight: 600;
+        color: #0d1b2a;
+    }
+
+    .calculator-box input {
+        width: calc(100% + 18px);
+        padding: 12px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid #bbb;
+        font-size: 16px;
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.12);
+        box-sizing: border-box;
+    }
+
+    .calculator-box button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        border-radius: 8px;
+        border: none;
+        background: #007bff;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .calculator-box button:hover {
+        background: #0056b3;
+    }
+
+    .result {
+        margin-top: 22px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #0d1b2a;
+    }
+  </style>
+
+  
+</head>
+<body>
+  <div class="calculator-box">
+    <img src="https://www.ubench.com/auth/resources/afkpa/login/ubench/img/UBench.svg" alt="UBench Logo">
+
+    <label>Enter desired price (€):</label>
+    <input type="text" id="price" placeholder="e.g. 150">
+
+    <label>OR enter worked minutes:</label>
+    <input type="text" id="minutes" placeholder="e.g. 120">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+  <script>
+    function calculate() {
+    const rate = 67.04;
+    let priceInput = document.getElementById("price").value.trim().replace(",", ".");
+    let minutesInput = document.getElementById("minutes").value.trim().replace(",", ".");
+
+    let resultText = "";
+
+    if (priceInput) {
+        let price = parseFloat(priceInput);
+        if (!isNaN(price) && price > 0) {
+            let minutes = (price / rate) * 60;
+            resultText += "Price € " + price.toFixed(2) + " → approx. " + minutes.toFixed(2) + " minutes.<br>";
+        } else {
+            resultText += "Invalid price input.<br>";
+        }
+    }
+
+    if (minutesInput) {
+        let minutes = parseFloat(minutesInput);
+        if (!isNaN(minutes) && minutes > 0) {
+            let price = (minutes / 60) * rate;
+            resultText += "Minutes " + minutes.toFixed(2) + " → approx. € " + price.toFixed(2) + ".";
+        } else {
+            resultText += "Invalid minutes input.";
+        }
+    }
+
+    if (!priceInput && !minutesInput) {
+        resultText = "Please enter price or minutes to calculate.";
+    }
+
+    document.getElementById("result").innerHTML = resultText;
+}
+  </script>
+</body>
+</html>
